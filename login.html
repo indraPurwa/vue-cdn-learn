@@ -6,16 +6,60 @@
     <title>Vue-CDN</title>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/> -->
     <link rel="stylesheet" href="./css/bootstrap@4.0.css"/>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <style>
+        .section{margin-bottom: 20px;}
+    </style>
+    
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
     <script src="./js/core-vue.js"></script>
+    <script src="./js/jquery@3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
         <div id="app">
             <div class="row">
-                <div class="col-sm-12 offset-lg-3 col-lg-6">
+                <div class="section col-sm-12 offset-lg-3 col-lg-6">
                     <form-login></form-login>
+                </div>
+                <div class="col-sm-12 offset-lg-3 col-lg-6">
+                    <table id="table_id" class="display">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <div id="events">
+                        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Body
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -32,11 +76,41 @@
                 'form-login': form_login
             },
             methods: {
-        login(){
-            console.log(login);
-        }
-    }
-        })
+                login(){
+                        console.log(login);
+                    }
+                }
+        });
+
+        var data = [
+        [
+                "Tiger Nixon",
+                '<button class="btn btn-primary user-row" data-id="1">Edit</button>',
+            ],
+            [
+                "Garrett Winters",
+                '<button class="btn btn-primary user-row" data-id="2">Edit</button>',
+            ]
+        ];
+        $('#table_id').DataTable( {
+            data: data
+        } );
+        var vm2 = new Vue({
+            el: '#events',
+            mounted() {
+                $('.user-row').on('click', (evt) => {
+                    $('#modelId').modal('show');
+                    console.log("called");
+                    const data = $(evt.target).data('id');
+                    this.logData(data); 
+                });
+            },
+            methods: {
+                logData(id) {
+                    console.log(id);
+                },
+            },
+        });
     </script>
 </body>
 </html>
