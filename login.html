@@ -82,35 +82,46 @@
                 }
         });
 
-        var data = [
-        [
-                "Tiger Nixon",
-                '<button class="btn btn-primary user-row" data-id="1">Edit</button>',
-            ],
-            [
-                "Garrett Winters",
-                '<button class="btn btn-primary user-row" data-id="2">Edit</button>',
-            ]
-        ];
+        // var data = [
+        // [
+        //         "Tiger Nixon",
+        //         '<button class="btn btn-primary user-row" data-id="1">Edit</button>',
+        //     ],
+        //     [
+        //         "Garrett Winters",
+        //         '<button class="btn btn-primary user-row" data-id="2">Edit</button>',
+        //     ]
+        // ];
         $('#table_id').DataTable( {
-            data: data
-        } );
-        var vm2 = new Vue({
-            el: '#events',
-            mounted() {
-                $('.user-row').on('click', (evt) => {
-                    $('#modelId').modal('show');
-                    console.log("called");
-                    const data = $(evt.target).data('id');
-                    this.logData(data); 
-                });
+            // data: data,
+            "processing": true,
+            "serverSide": true,
+            "ajax"      : {
+				"url"       : "http://localhost/GITHUB/lumen-todo-app/public/vue_cdn_user",
+				// "data"		: data,
+				"type"      : "POST"
             },
-            methods: {
-                logData(id) {
-                    console.log(id);
+            "initComplete": function(settings, json) {
+                // alert( 'DataTables has finished its initialisation.' );
+                var vm2 = new Vue({
+                el: '#events',
+                mounted() {
+                    $('.user-row').on('click', (evt) => {
+                        $('#modelId').modal('show');
+                        console.log("called");
+                        const data = $(evt.target).data('id');
+                        this.logData(data); 
+                    });
                 },
-            },
-        });
+                methods: {
+                    logData(id) {
+                        console.log(id);
+                    },
+                },
+            });
+            }
+        } );
+        
     </script>
 </body>
 </html>
